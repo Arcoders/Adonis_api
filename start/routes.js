@@ -25,3 +25,13 @@ Route.get('customers/:id', 'CustomerController.show').middleware(['findCustomer'
 Route.post('customers', 'CustomerController.store')
 Route.patch('customers/:id', 'CustomerController.update').middleware(['findCustomer'])
 Route.delete('customers/:id', 'CustomerController.destroy').middleware(['findCustomer'])
+
+// Projects -----------------------------------------------
+
+Route.get('projects', 'ProjectController.index')
+Route.post('projects', 'ProjectController.store')
+
+// Tasks -----------------------------------------------
+
+Route.get('tasks', 'TaskController.index')
+Route.post('tasks', 'TaskController.store')

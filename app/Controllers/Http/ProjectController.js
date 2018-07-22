@@ -1,4 +1,5 @@
 'use strict'
+const Project = use('App/Models/Project')
 
 /**
  * Resourceful controller for interacting with projects
@@ -8,7 +9,13 @@ class ProjectController {
    * Show a list of all projects.
    * GET projects
    */
-  async index ({ request, response, view }) {
+  async index ({ request, response }) {
+    const projects = await Project.query().with('customer').with('tasks').fetch()
+
+    response.status(200).json({
+      message: 'Here are your projects.',
+      data: projects
+    })
   }
 
   /**
@@ -23,6 +30,14 @@ class ProjectController {
    * POST projects
    */
   async store ({ request, response }) {
+    const { name, description, customer_id } = request.post()
+
+    const project = await Project.create({ name, description, customer_id })
+
+    response.status(201).json({
+      message: 'Successfully created a new project.',
+      data: project
+    })
   }
 
   /**

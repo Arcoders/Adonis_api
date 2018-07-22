@@ -1,5 +1,7 @@
 'use strict'
 
+const Task = use('App/Models/Task')
+
 /**
  * Resourceful controller for interacting with tasks
  */
@@ -8,7 +10,13 @@ class TaskController {
    * Show a list of all tasks.
    * GET tasks
    */
-  async index ({ request, response, view }) {
+  async index ({ response }) {
+    const tasks = await Task.query().with('project').fetch()
+
+    response.status(200).json({
+      message: 'Here are your tasks',
+      data: tasks
+    })
   }
 
   /**
@@ -23,6 +31,14 @@ class TaskController {
    * POST tasks
    */
   async store ({ request, response }) {
+    const { name, description, project_id } = request.post()
+
+    const task = await Task.create({ name, description, project_id })
+
+    response.status(201).json({
+      message: 'Successfully created a new task.',
+      data: task
+    })
   }
 
   /**
