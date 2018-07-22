@@ -47,21 +47,14 @@ class CustomerController {
    * Display a single customer.
    * GET customers/:id
    */
-  async show ({ response, params: { id } }) {
+  async show ({ request, response }) {
 
-    const customer = await Customer.find(id)
+    const customer = request.post().customer
 
-    if (customer) {
-      response.status(200).json({
-        message: 'Heres is your customer.',
-        data: customer
-      })
-    } else {
-      response.status(404).json({
-        message: 'Customer not found.',
-        id
-      })
-    }
+    response.status(200).json({
+      message: 'Heres is your customer.',
+      data: customer
+    })
 
   }
 
@@ -76,30 +69,19 @@ class CustomerController {
    * Update customer details.
    * PUT or PATCH customers/:id
    */
-  async update ({ request, response, params: { id } }) {
+  async update ({ request, response }) {
 
-    const customer = await Customer.find(id)
+    const { name, description, customer } = request.post()
 
-    if (customer) {
+    customer.name = name
+    customer.description = description
 
-      const { name, description } = request.post()
+    await customer.save()
 
-      customer.name = name
-      customer.description = description
-
-      await customer.save()
-
-      response.status(200).json({
-        message: 'Succssfuly updated a new customer.',
-        data: customer
-      })
-
-    } else {
-      response.status(404).json({
-        message: 'Customer not found.',
-        id
-      })
-    }
+    response.status(200).json({
+      message: 'Succssfuly updated a new customer.',
+      data: customer
+    })
 
   }
 
@@ -107,25 +89,16 @@ class CustomerController {
    * Delete a customer with id.
    * DELETE customers/:id
    */
-  async destroy ({ response, params: { id } }) {
+  async destroy ({ request, response, params: { id } }) {
 
-    const customer = await Customer.find(id)
+    const customer = request.post().customer
 
-    if (customer) {
+    await customer.delete()
 
-      await customer.delete()
-
-      response.status(200).json({
-        message: 'Succssfuly deleted this customer.',
-        data: id
-      })
-
-    } else {
-      response.status(404).json({
-        message: 'Customer not found.',
-        id
-      })
-    }
+    response.status(200).json({
+      message: 'Succssfuly deleted this customer.',
+      id
+    })
 
   }
 }
