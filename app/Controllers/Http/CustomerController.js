@@ -12,7 +12,9 @@ class CustomerController {
    */
   async index ({ response}) {
 
-    const customer = await Customer.query().with('projects').fetch()
+    const customer = await Customer.query().with('projects', projectQuery => {
+      projectQuery.where('completed', true).with('tasks')
+    }).fetch()
 
     response.status(200).json({
       message: 'Here are your customers.',

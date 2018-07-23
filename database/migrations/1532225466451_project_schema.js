@@ -9,6 +9,7 @@ class ProjectSchema extends Schema {
 
       table.string('name')
       table.text('description')
+      table.boolean('completed').default(false)
 
       table.integer('customer_id').unsigned()
       table.foreign('customer_id').references('customers.id').onDelete('cascade')

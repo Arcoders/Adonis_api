@@ -30,9 +30,9 @@ class ProjectController {
    * POST projects
    */
   async store ({ request, response }) {
-    const { name, description, customer_id } = request.post()
+    const { name, description, completed, customer_id } = request.post()
 
-    const project = await Project.create({ name, description, customer_id })
+    const project = await Project.create({ name, description, completed, customer_id })
 
     response.status(201).json({
       message: 'Successfully created a new project.',
