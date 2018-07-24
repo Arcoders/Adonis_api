@@ -1,5 +1,7 @@
 'use strict'
 
+const Tag = use('App/Models/Tag')
+
 /**
  * Resourceful controller for interacting with tags
  */
@@ -8,7 +10,13 @@ class TagController {
    * Show a list of all tags.
    * GET tags
    */
-  async index ({ request, response, view }) {
+  async index ({ request, response }) {
+    const tag = await Tag.all()
+
+    response.status(200).json({
+      message: 'Here are your tags',
+      data: tag
+    })
   }
 
   /**

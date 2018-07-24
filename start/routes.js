@@ -35,3 +35,7 @@ Route.post('projects', 'ProjectController.store')
 
 Route.get('tasks', 'TaskController.index')
 Route.post('tasks', 'TaskController.store')
+
+// Tasks -----------------------------------------------
+
+Route.get('Tags', 'TagController.index')
