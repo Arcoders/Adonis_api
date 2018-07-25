@@ -10,7 +10,7 @@ class ProjectController {
    * GET projects
    */
   async index ({ request, response }) {
-    const projects = await Project.query().with('customer').with('tasks').fetch()
+    const projects = await Project.query().with('customer').with('tags').with('tasks').fetch()
 
     response.status(200).json({
       message: 'Here are your projects.',
@@ -64,6 +64,24 @@ class ProjectController {
    * PUT or PATCH projects/:id
    */
   async update ({ params, request, response }) {
+    const { name, description, customer_id, project, tags } = request.post()
+
+    project.name = name || project.name
+    project.description = description || project.description
+    project.customer_id = customer_id || project.customer_id
+
+    await project.save()
+
+    if (tags && tags.length > 0) {
+      await project.tags().detach()
+      await project.tags().attach(tags)
+      project.tags = await project.tags().fetch()
+    }
+
+    response.status(200).json({
+      message: 'Successfully updated this project.',
+      data: project
+    })
   }
 
   /**

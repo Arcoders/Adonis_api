@@ -30,6 +30,7 @@ Route.delete('customers/:id', 'CustomerController.destroy').middleware(['findCus
 
 Route.get('projects', 'ProjectController.index')
 Route.post('projects', 'ProjectController.store')
+Route.patch('projects/:id', 'ProjectController.update').middleware(['findProject'])
 
 // Tasks -----------------------------------------------
 
