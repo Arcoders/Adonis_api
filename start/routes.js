@@ -39,4 +39,6 @@ Route.post('tasks', 'TaskController.store')
 
 // Tasks -----------------------------------------------
 
-Route.get('Tags', 'TagController.index')
+Route.get('tags', 'TagController.index')
+Route.get('tags/:tagId', 'TagController.show').bind('App/Models/Tag', 'tag', 'tagId', '_id');
+

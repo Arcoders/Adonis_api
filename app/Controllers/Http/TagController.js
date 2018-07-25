@@ -37,7 +37,11 @@ class TagController {
    * Display a single tag.
    * GET tags/:id
    */
-  async show ({ params, request, response, view }) {
+  async show ({ response, tag }) {
+    response.status(200).json({
+      message: 'Here are your selected tag',
+      data: tag
+    })
   }
 
   /**
